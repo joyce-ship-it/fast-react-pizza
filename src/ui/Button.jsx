@@ -1,0 +1,25 @@
+import { Link } from "react-router-dom";
+export default function Button({ children, disabled, to, type }) {
+  const className =
+    "inline-block rounded-full bg-yellow-400 px-4 py-3 font-semibold tracking-wide text-yellow-800 transition-colors duration-300 hover:bg-yellow-300 focus:outline-none focus:ring focus:ring-yellow-300 focus:ring-offset-2 disabled:cursor-not-allowed sm:px-6 sm:py-4 ";
+  const base =
+    "inline-block rounded-full bg-yellow-400  font-semibold tracking-wide text-yellow-800 transition-colors duration-300 hover:bg-yellow-300 focus:outline-none focus:ring focus:ring-yellow-300 focus:ring-offset-2 disabled:cursor-not-allowed ";
+  const styles = {
+    primary: base + " px-4 py-3 sm:px-6 sm:py-4 ",
+    small: base + " px-4 py-2 md:px-5 md:py-2.5 text-xs",
+    secondary:
+      "inline-block rounded-full bg-transparent border-2 border-stone-200 px-6 py-2.5   font-semibold tracking-wide text-yellow-800 transition-colors duration-300 hover:bg-yellow-300 focus:outline-none focus:ring focus:ring-yellow-300 focus:ring-offset-2 disabled:cursor-not-allowed sm:px-6 sm:py-4 hover:bg-stone-800 hover:text-stone-200",
+  };
+  if (to) {
+    return (
+      <Link to={to} className={styles[type]}>
+        {children}
+      </Link>
+    );
+  }
+  return (
+    <button disabled={disabled} className={styles[type]}>
+      {children}
+    </button>
+  );
+}
