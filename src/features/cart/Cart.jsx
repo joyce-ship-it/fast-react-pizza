@@ -2,42 +2,28 @@ import { Link } from "react-router-dom";
 import LinkButton from "../../ui/LinkButton";
 import Button from "../../ui/Button";
 import CartItem from "./CartItem";
-const fakeCart = [
-  {
-    pizzaId: 12,
-    name: "Mediterranean",
-    quantity: 2,
-    unitPrice: 16,
-    totalPrice: 32,
-  },
-  {
-    pizzaId: 6,
-    name: "Vegetale",
-    quantity: 1,
-    unitPrice: 13,
-    totalPrice: 13,
-  },
-  {
-    pizzaId: 11,
-    name: "Spinach and Mushroom",
-    quantity: 1,
-    unitPrice: 15,
-    totalPrice: 15,
-  },
-];
+import { useDispatch, useSelector } from "react-redux";
+import { clearCart, getCart } from "./cardSlice";
+import EmptyCart from "./EmptyCart";
 
 function Cart() {
-  const cart = fakeCart;
+  const cart = useSelector(getCart);
+  const username = useSelector((state) => state.user.username);
+  const dispatch = useDispatch();
+  function handleClearCart() {
+    dispatch(clearCart());
+  }
 
+  if (!cart.length) return <EmptyCart></EmptyCart>;
   return (
     <div className="px-3 py-4">
       <LinkButton to="/menu">&larr; Back to menu</LinkButton>
 
-      <h2 className="text-sl mt-7 font-semibold">Your cart, %NAME%</h2>
+      <h2 className="text-sl mt-7 font-semibold">Your cart, {username}</h2>
       <ul className="divide-y divide-stone-200 border-b">
-        {cart.map((item) => {
-          // console.log(item.pizzaId);
-          return <CartItem key={item.pizzaId} item={item}></CartItem>;
+        {cart.map((item, index) => {
+          console.log(item);
+          return <CartItem key={index} item={item}></CartItem>;
         })}
       </ul>
       <div className="mt-6 space-x-4">
@@ -45,7 +31,10 @@ function Cart() {
           Order pizzas
         </Button>
         {/* <Link to="/order/new">Order pizzas</Link> */}
-        <Button type="secondary">Clear cart</Button>
+
+        <Button type="secondary" onClick={handleClearCart}>
+          Clear cart
+        </Button>
       </div>
     </div>
   );
